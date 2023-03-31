@@ -19,6 +19,8 @@
       <% if @resource.retired_format? %>
         <br /><br />
         This content format has been retired.
+      <% elsif @resource.migrated_format? %>
+        <%= "This content format has been migrated to #{@resource.migrated_publishing_app}." %>
       <% end %>
     </div>
   </div>

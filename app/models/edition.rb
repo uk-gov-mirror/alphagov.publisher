@@ -153,7 +153,7 @@ class Edition
   end
 
   def self.convertible_formats
-    Artefact::FORMATS_BY_DEFAULT_OWNING_APP["publisher"] - %w[local_transaction] - Artefact::RETIRED_FORMATS
+    Artefact::FORMATS_BY_DEFAULT_OWNING_APP["publisher"] - %w[local_transaction] - Artefact::RETIRED_FORMATS - Artefact::MIGRATED_FORMATS
   end
 
   def series
@@ -193,13 +193,17 @@ class Edition
   end
 
   def can_create_new_edition?
-    return false if retired_format?
+    return false if retired_format? || migrated_format?
 
     !scheduled_for_publishing? && subsequent_siblings.in_progress.empty?
   end
 
   def retired_format?
     Artefact::RETIRED_FORMATS.include? format.underscore
+  end
+
+  def migrated_format?
+    Artefact::MIGRATED_FORMATS.find { |app, formats| formats.include?(kind) }
   end
 
   def major_updates_in_series

@@ -29,6 +29,9 @@ module EditionsHelper
       Artefact::FORMATS_BY_DEFAULT_OWNING_APP["publisher"].map do |format_name|
         displayed_format_name = format_name.humanize
         displayed_format_name += " (Retired)" if Artefact::RETIRED_FORMATS.include?(format_name)
+        if Artefact::MIGRATED_FORMATS.find { |app, formats| formats.include?(kind) }
+          displayed_format_name += " (Migrated)"
+        end
         [displayed_format_name, format_name]
       end
   end

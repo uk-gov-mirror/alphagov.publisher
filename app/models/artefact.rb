@@ -67,6 +67,9 @@ class Artefact
   }.freeze
 
   RETIRED_FORMATS = %w[campaign programme video].freeze
+  MIGRATED_FORMATS = {
+    "Specialist Publisher" => %w[licence]
+  }
 
   FORMATS = FORMATS_BY_DEFAULT_OWNING_APP.values.flatten
 
@@ -268,6 +271,10 @@ class Artefact
     return edition_class_name.in? Edition::EXACT_ROUTE_EDITION_CLASSES if owning_app == "publisher"
 
     prefixes.empty?
+  end
+
+  def migrated_publishing_app
+    MIGRATED_FORMATS.find { |app, formats| formats.include?(kind) }.first
   end
 
 private

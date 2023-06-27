@@ -29,33 +29,37 @@ namespace :once_off do
       redirect_url = PATHS_NOT_TO_MIGRATE.include?(licence_edition.slug) ? nil : "/find-licences/#{licence_edition.slug}"
       artefact = licence_edition.artefact
 
-      artefact.assign_attributes(state: "archived", redirect_url:)
-      artefact.save_as_task!("once_off:unpublish_licences")
+      begin
+        if redirect_url.present?
+          Services.publishing_api.unpublish(
+            artefact.content_id,
+            locale: artefact.language,
+            type: "redirect",
+            redirects: [
+              {
+                path: "/#{artefact.slug}",
+                type: "prefix",
+                destination: redirect_url,
+                segments_mode: "ignore",
+              },
+            ],
+            discard_drafts: true,
+          )
+          puts("#{licence_edition.slug} archived, unpublished with redirect to #{redirect_url}")
+        else
+          Services.publishing_api.unpublish(
+            artefact.content_id,
+            locale: artefact.language,
+            type: "gone",
+            discard_drafts: true,
+          )
+          puts("#{licence_edition.slug} archived, unpublished without redirect}")
+        end
 
-      if redirect_url.present?
-        Services.publishing_api.unpublish(
-          artefact.content_id,
-          locale: artefact.language,
-          type: "redirect",
-          redirects: [
-            {
-              path: "/#{artefact.slug}",
-              type: "prefix",
-              destination: redirect_url,
-              segments_mode: "ignore",
-            },
-          ],
-          discard_drafts: true,
-        )
-        puts("#{licence_edition.slug} archived, unpublished with redirect to #{redirect_url}")
-      else
-        Services.publishing_api.unpublish(
-          artefact.content_id,
-          locale: artefact.language,
-          type: "gone",
-          discard_drafts: true,
-        )
-        puts("#{licence_edition.slug} archived, unpublished without redirect}")
+        artefact.assign_attributes(state: "archived", redirect_url:)
+        artefact.save_as_task!("once_off:unpublish_licences")
+      rescue StandardError => e
+        puts("ERROR: Failed to archive #{licence_edition.slug} - #{e.message}")
       end
     end
   end

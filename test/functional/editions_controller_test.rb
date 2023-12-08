@@ -1204,4 +1204,32 @@ class EditionsControllerTest < ActionController::TestCase
       assert_equal "Option One", question.options.first.label
     end
   end
+
+  context "#diagram" do
+    context "given a simple smart answer exists" do
+      setup do
+        @artefact = FactoryBot.create(:artefact, slug: "foo", name: "Foo", kind: "simple_smart_answer", owning_app: "publisher")
+        @edition = FactoryBot.create(:simple_smart_answer_edition, body: "blah", state: "draft", slug: "foo", panopticon_id: @artefact.id)
+        @edition.save!
+      end
+
+      should "render a diagram page for it" do
+        get :diagram, params: { id: @edition.id }
+
+        assert_response :success
+        assert_select "title", "Diagram for #{@edition.title} | GOV.UK Publisher"
+      end
+    end
+
+    context "given a non-simple smart answer exists" do
+      setup do
+        @welsh_guide = FactoryBot.create(:guide_edition, :welsh, :in_review)
+      end
+
+      should "return a 404" do
+        get :diagram, params: { id: @welsh_guide.id }
+        assert_response :not_found
+      end
+    end
+  end
 end

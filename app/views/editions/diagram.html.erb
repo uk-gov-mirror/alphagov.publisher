@@ -4,22 +4,12 @@
   <%= link_to "Back to current edition", edition_path(@resource.history.first), :class => "btn btn-default" %>
 </p>
 
-<pre class="mermaid flowchart">
-<%= @resource.generate_mermaid %>
-</pre>
+<div class="smart-answer-flowchart">
+  <pre class="mermaid flowchart">
+    <%= @resource.generate_mermaid %>
+  </pre>
+</div>
 
-<%# [MT] TODO: Don't have inline styles—these should be coming from a stylesheet %>
-<style>
-    .container{
-        width: 100% !important;
-    }
-    .mermaid {
-        background-color: #ffffff;
-    }
-    pre {
-        word-break: normal;
-    }
-</style>
 <%# [MT] TODO: Inline scripts are a security hazard—this should come from an imported JS file %>
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';

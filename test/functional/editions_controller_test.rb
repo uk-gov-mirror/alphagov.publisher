@@ -1032,6 +1032,31 @@ class EditionsControllerTest < ActionController::TestCase
       assert_response :success
       assert_not_nil assigns(:resource)
     end
+
+    should "render a link to the diagram when edition is a simple smart answer" do
+      simple_smart_answer_artefact = FactoryBot.create(
+        :artefact,
+        slug: "my-simple-smart-answer",
+        kind: "guide",
+        name: "test",
+        owning_app: "publisher",
+        )
+      simple_smart_answer = SimpleSmartAnswerEdition.create!(
+        title: "test ssa",
+        panopticon_id: simple_smart_answer_artefact.id)
+
+      get :show, params: { id: simple_smart_answer.id }
+
+      assert_select ".link-check-report p", {text: "View the flow diagram (opens in new tab)"} do
+        assert_select 'a[href=?]', "#{diagram_edition_path(simple_smart_answer)}",
+                      { :count => 1, :text => 'flow diagram (opens in new tab)' }
+      end
+    end
+
+    should "not render a link to the diagram when edition is not a simple smart answer" do
+      get :show, params: { id: @guide.id }
+      assert_select "p", {count: 0, text: "View the flow diagram (opens in new tab)"}
+    end
   end
 
   context "#admin" do

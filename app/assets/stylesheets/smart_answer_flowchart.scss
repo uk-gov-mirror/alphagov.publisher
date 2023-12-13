@@ -5,7 +5,11 @@
 
   .flowchart--hidden,
   .flowchart__loading--hidden {
-    display: none;
+    visibility: hidden;
+  }
+
+  .flowchart__loading {
+    text-align: center;
   }
 
   pre {

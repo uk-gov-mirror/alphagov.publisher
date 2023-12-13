@@ -8,8 +8,11 @@
 
       mermaid.initialize({ startOnLoad: true, flowchart: { useMaxWidth: false }});
 
-      diagram.removeClass('flowchart--hidden')
-      flowchart__loading.addClass('flowchart__loading--hidden')
+      setTimeout(() => {
+        diagram.removeClass('flowchart--hidden')
+        flowchart__loading.addClass('flowchart__loading--hidden')
+      },
+        100);
     }
   }
 })(window.GOVUKAdmin.Modules)

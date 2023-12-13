@@ -4,16 +4,10 @@
   <%= link_to "Back to current edition", edition_path(@resource.history.first), :class => "btn btn-default" %>
 </p>
 
-<div class="smart-answer-flowchart">
+<div class="smart-answer-flowchart" data-module="smart-answer-flowchart">
   <pre class="mermaid flowchart">
     <%= @resource.generate_mermaid %>
   </pre>
 </div>
-
-<%# [MT] TODO: Inline scripts are a security hazard—this should come from an imported JS file %>
-<script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({ startOnLoad: true, flowchart: { useMaxWidth: false }});
-</script>
 
 <% content_for :page_title, "Diagram for #{@resource.title}" %>

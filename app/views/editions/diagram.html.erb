@@ -5,9 +5,11 @@
 </p>
 
 <div class="smart-answer-flowchart" data-module="smart-answer-flowchart">
-  <pre class="mermaid flowchart">
+  <pre class="mermaid flowchart flowchart--hidden">
     <%= @resource.generate_mermaid %>
   </pre>
+
+  <p class="flowchart__loading">Generating diagram ...</p>
 </div>
 
 <% content_for :page_title, "Diagram for #{@resource.title}" %>

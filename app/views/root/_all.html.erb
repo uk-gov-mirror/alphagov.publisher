@@ -1,0 +1,9 @@
+<h1>all</h1>
+
+ <%=
+@presenter.all.map do | document |
+    p 'hello'
+    p document.as_json
+    document.as_json.with_indifferent_access.slice(:_type, :title, :date, :review_requested_at, :assignee, :reviewer).values.map { |row| { text: row } }
+  end
+%>

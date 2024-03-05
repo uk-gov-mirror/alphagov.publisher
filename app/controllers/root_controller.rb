@@ -1,7 +1,7 @@
 class RootController < ApplicationController
   respond_to :html, :json
 
-  layout "design_system"
+  # layout "design_system"
 
   include ColumnSortable
 
@@ -13,7 +13,7 @@ class RootController < ApplicationController
     user_filter           = params[:user_filter] || session[:user_filter]
     session[:user_filter] = user_filter
 
-    @list = params[:list].presence || "drafts"
+    @list = params[:list].presence || "all"
     @presenter, @user_filter = build_presenter(user_filter, params[:page])
 
     # Looking at another class, but the whole approach taken by this method and its

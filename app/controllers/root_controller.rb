@@ -1,6 +1,8 @@
 class RootController < ApplicationController
   respond_to :html, :json
 
+  layout "design_system"
+
   include ColumnSortable
 
   ITEMS_PER_PAGE = 20

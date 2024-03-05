@@ -1,3 +1,56 @@
+<%= @presenter.in_review.map { | a | a } %>
+<%=
+@presenter.in_review.map do | document |
+    p 'hello'
+    p document.as_json
+    document.as_json.with_indifferent_access.slice(:_type, :title, :date, :review_requested_at, :assignee, :reviewer).values.map { |row| { text: row } }
+  end
+%>
+
+<%= render "govuk_publishing_components/components/table", {
+  sortable: true,
+  head: [
+    {
+      text: "Format",
+      format: "text",
+      href: "?direction=asc&list=in_review&sort=_type",
+    },
+    {
+      text: "Title",
+      format: "text",
+      href: "?direction=asc&list=in_review&sort=title",
+    },
+    {
+      text: "Updated to",
+      format: "date",
+      href: "?direction=asc&list=in_review&sort=date"
+    },
+    {
+      text: "Assignee",
+      format: "text",
+      href: "?direction=asc&list=in_review&sort=assignee"
+    },
+    {
+      text: "Awaiting review",
+      format: "text",
+      href: "?direction=asc&list=in_review&sort=review_requested_at"
+    },
+    {
+      text: "Reviewer",
+      format: "text",
+      href: "?direction=asc&list=in_review&sort=reviewer"
+    },
+  ],
+  rows: @presenter.in_review.map do | document |
+    [
+      text: document._type
+    ].concat(
+      document.as_json.with_indifferent_access.slice(:title, :updated_at, :assignee, :review_requested_at, :reviewer).values.zip([ "text", "date", "text", "date", "text" ]).map { |row| { text: row[1] == 'date' ? Date.strptime(row[0], '%Y-%m-%d') : row[0] } }
+    )
+  end
+} %>
+
+
 <table class="table table-striped table-bordered table-condensed" summary="List of &ldquo;In Review&rdquo; content">
   <thead>
     <tr class="table-header">

@@ -66,3 +66,7 @@
     ],
   } %>
 <% end %>
+
+<%= javascript_tag nonce: true do -%>
+      document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
+    <% end -%>

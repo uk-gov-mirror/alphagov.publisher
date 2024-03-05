@@ -1,9 +1,120 @@
-<h1>all</h1>
+<div class="govuk-accordion" data-module="accordion-hack" id="accordion-default">
+  <div class="govuk-accordion__section">
+    <div class="govuk-accordion__section-header">
+      <h2 class="govuk-accordion__section-heading">
+        <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+          Writing well for the web
+        </span>
+      </h2>
+    </div>
+    <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+      <p class="govuk-body">This is the content for Writing well for the web.</p>
+    </div>
+  </div>
+  <div class="govuk-accordion__section">
+    <div class="govuk-accordion__section-header">
+      <h2 class="govuk-accordion__section-heading">
+        <span class="govuk-accordion__section-button" id="accordion-default-heading-2">
+          Writing well for specialists
+        </span>
+      </h2>
+    </div>
+    <div id="accordion-default-content-2" class="govuk-accordion__section-content">
+      <p class="govuk-body">This is the content for Writing well for specialists.</p>
+    </div>
+  </div>
+  <div class="govuk-accordion__section">
+    <div class="govuk-accordion__section-header">
+      <h2 class="govuk-accordion__section-heading">
+        <span class="govuk-accordion__section-button" id="accordion-default-heading-3">
+          Know your audience
+        </span>
+      </h2>
+    </div>
+    <div id="accordion-default-content-3" class="govuk-accordion__section-content">
+      <p class="govuk-body">This is the content for Know your audience.</p>
+    </div>
+  </div>
+  <div class="govuk-accordion__section">
+    <div class="govuk-accordion__section-header">
+      <h2 class="govuk-accordion__section-heading">
+        <span class="govuk-accordion__section-button" id="accordion-default-heading-4">
+          How people read
+        </span>
+      </h2>
+    </div>
+    <div id="accordion-default-content-4" class="govuk-accordion__section-content">
+      <p class="govuk-body">This is the content for How people read.</p>
+    </div>
+  </div>
+</div>
 
- <%=
-@presenter.all.map do | document |
-    p 'hello'
-    p document.as_json
-    document.as_json.with_indifferent_access.slice(:_type, :title, :date, :review_requested_at, :assignee, :reviewer).values.map { |row| { text: row } }
-  end
-%>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "components/table", {
+      head: [
+        {
+          text: "Title",
+          format: "text",
+        },
+        {
+          text: "Assigned to",
+          format: "text",
+        },
+        {
+          text: "Status",
+          format: "text",
+        },
+        {
+          text: ""
+        }
+      ],
+      rows: @presenter.all.reduce([]) do | acc, document |
+        row = document.as_json.with_indifferent_access
+
+        acc.concat(
+          [[
+            {
+              text: sanitize("<div><p>#{row[:title]}</p><span>Last updated: #{ Date.strptime(row[:updated_at], '%Y-%m-%d')}</div>")
+            },
+            {
+              text: row[:assignee]
+            },
+            {
+              text: row[:state]
+            },
+            {
+              text: sanitize("<div><button>Show all</button><div>")
+            }
+          ],
+          [
+            {
+              colspan: 5,
+              text: sanitize(%q(
+                <table
+                  style="width: 100%;"
+                >
+                  <tr
+                    colspan="5"
+                  >
+                    <th>Edition</th>
+                    <td>Example</td>
+                  </tr>
+                  <tr>
+                    <th>Format</th>
+                    <td>Example</td>
+                  </tr>
+                  <tr>
+                    <th>Important Note</th>
+                    <td>Example</td>
+                  </tr>
+                </table>
+              ), tags: %w(table tr th td), attributes: %w(style colspan))        
+            }
+          ]]
+        )
+      end
+    } %>
+  </div>
+</div>

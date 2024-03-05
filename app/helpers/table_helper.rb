@@ -61,7 +61,7 @@ module TableHelper
       classes << "govuk-table__cell--#{opt[:format]}" if opt[:format]
       classes << "govuk-table__cell--empty" unless str
       str ||= "Not set"
-      tag.td str, class: classes
+      tag.td str, class: classes, colspan: opt[:colspan]
     end
   end
 end

@@ -1,7 +1,7 @@
 class RootController < ApplicationController
   respond_to :html, :json
 
-  # layout "design_system"
+  layout "design_system", :only => "index"
 
   include ColumnSortable
 

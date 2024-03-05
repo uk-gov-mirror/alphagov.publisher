@@ -1,13 +1,10 @@
-<%= @presenter.in_review.map { | a | a } %>
 <%=
 @presenter.in_review.map do | document |
-    p 'hello'
-    p document.as_json
     document.as_json.with_indifferent_access.slice(:_type, :title, :date, :review_requested_at, :assignee, :reviewer).values.map { |row| { text: row } }
   end
 %>
 
-<%= render "govuk_publishing_components/components/table", {
+<%= render "components/table", {
   sortable: true,
   head: [
     {

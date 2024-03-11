@@ -41,38 +41,9 @@
             [
               {
                 colspan: 5,
-                text: sanitize(%q(
-                  <div class="govuk-accordion" >
-                    <div class="govuk-accordion__section">
-                      <div class="govuk-accordion__section-header">
-                        <h2 class="govuk-accordion__section-heading">
-                          <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
-                          </span>
-                        </h2>
-                      </div>
-                      <div id="accordion-default-content-1" class="govuk-accordion__section-content">
-                          <table
-                            style="width: 100%;"
-                          >
-                            <tr
-                              colspan="5"
-                            >
-                              <th>Edition</th>
-                              <td>Example</td>
-                            </tr>
-                            <tr>
-                              <th>Format</th>
-                              <td>Example</td>
-                            </tr>
-                            <tr>
-                              <th>Important Note</th>
-                              <td>Example</td>
-                            </tr>
-                          </table>
-                      </div>
-                    </div>
-                  </div>
-                ), tags: %w(div p h2 span table th td tr), attributes: %w(id class data-module))
+                text: render(partial: "shared/table_table", locals: {
+                  edition: "edition",
+                })
               }
             ]
           ]

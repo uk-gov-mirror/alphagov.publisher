@@ -3,3 +3,43 @@ $govuk-page-width: 1140px;
 // GOVUK Design System
 @import "govuk_publishing_components/all_components";
 @import "downtimes";
+
+.accordion-hack {
+  position: relative;
+  .govuk-accordion__controls {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+.accordion-hack {
+  tbody {
+    position: relative;
+    button.govuk-accordion__section-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: fit-content;
+    }
+  }
+
+  .govuk-table__cell {
+    border-bottom: 0;
+  }
+
+  .govuk-accordion__section-button {
+    border-top: 0;
+  }
+}
+
+.govuk-table__cell {
+  .govuk-accordion {
+    margin: 0;
+  }
+}
+
+.accordion-hack__button-space {
+  display: block;
+  width: 100px;
+}

@@ -586,10 +586,10 @@ class Accordion extends GOVUKFrontendComponent {
    */
   static defaults = Object.freeze({
     i18n: {
-      hideAllSections: 'Hide all sections',
+      hideAllSections: 'Hide all',
       hideSection: 'Hide',
       hideSectionAriaLabel: 'Hide this section',
-      showAllSections: 'Show all sections',
+      showAllSections: 'Show all',
       showSection: 'Show',
       showSectionAriaLabel: 'Show this section'
     },
@@ -628,7 +628,12 @@ window.GOVUK.Modules = window.GOVUK.Modules || {};
   }
 
   AccordionHack.prototype.init = function () {
-    new Accordion(this.module);
+    console.log(this.module.querySelector(".govuk-accordion__controls"))
+    console.log(this.module.getAttribute("data-accordion-hack-module-started"))
+
+    if (!this.module.querySelector(".govuk-accordion__controls")) {
+      new Accordion(this.module);  
+    }
   }
   
   Modules.AccordionHack = AccordionHack

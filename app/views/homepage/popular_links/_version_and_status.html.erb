@@ -1,0 +1,20 @@
+<h1 class="govuk-heading-l">Popular links</h1>
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Edition
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <%= version %>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Status
+    </dt>
+    <dd class="govuk-summary-list__value">
+      <% status_tags = { :published=> "govuk-tag--green", :draft => "govuk-tag--yellow" } %>
+      <%= tag.strong status.capitalize, class: ["govuk-tag",status_tags[status.to_sym]] %>
+    </dd>
+  </div>
+</dl>

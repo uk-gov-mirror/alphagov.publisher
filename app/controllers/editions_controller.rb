@@ -13,6 +13,8 @@ class EditionsController < InheritedResources::Base
   end
   after_action :report_state_counts, only: %i[create duplicate progress destroy]
 
+  skip_before_action :authenticate_user!, only: [:public_diff]
+
   def index
     redirect_to root_path
   end
@@ -212,6 +214,10 @@ class EditionsController < InheritedResources::Base
   def diff
     @resource = resource
     @comparison = @resource.previous_siblings.last
+  end
+
+  def public_diff
+    render :layout => "design_system"
   end
 
   def process_unpublish

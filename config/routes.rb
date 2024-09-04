@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
   resources :editions do
     member do
+      get "public_diff"
       get "diff"
       get "metadata"
       get "history"

@@ -4,6 +4,7 @@ module GovukContentModels
       attr_accessor :actor, :edition, :action_attributes, :event_attributes
 
       def initialize(actor, edition, action_attributes = {}, event_attributes = {})
+        # byebug
         @actor = actor
         @edition = edition
         @action_attributes = action_attributes

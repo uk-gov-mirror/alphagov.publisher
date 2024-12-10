@@ -2,7 +2,7 @@ require_dependency "part"
 
 module Parted
   def self.included(klass)
-    klass.embeds_many :parts
+    klass.has_many :parts
     klass.accepts_nested_attributes_for :parts,
                                         allow_destroy: true,
                                         reject_if: proc { |attrs| attrs["title"].blank? && attrs["body"].blank? }

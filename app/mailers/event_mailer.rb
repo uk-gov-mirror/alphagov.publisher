@@ -5,6 +5,7 @@ class EventMailer < ApplicationMailer
   helper(WorkingDaysHelper)
 
   def any_action(action, recipient_email)
+    byebug
     @action = action
     @preview_url = preview_edition_path(@action.edition)
     subject = "[PUBLISHER] #{describe_action(@action)}"

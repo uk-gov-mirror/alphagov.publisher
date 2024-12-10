@@ -1,4 +1,4 @@
-require "state_machines-mongoid"
+require "state_machines-activerecord"
 
 module Workflow
   class CannotDeletePublishedPublication < RuntimeError; end
@@ -11,10 +11,11 @@ module Workflow
     before_save :denormalise_users!
     after_create :notify_siblings_of_new_edition
 
-    field :state, type: String, default: "draft"
+    # field :state, type: String, default: "draft"
     belongs_to :assigned_to, class_name: "User", optional: true
 
     state_machine initial: :draft do
+      # state :draft, type: String, default: "draft"
       after_transition on: :request_amendments do |edition, _transition|
         edition.mark_as_rejected
       end
@@ -192,7 +193,7 @@ private
   end
 
   def update_user_action(property, statuses)
-    actions.where(:request_type.in => statuses).limit(1).each do |action|
+    Action.where(request_type: statuses).limit(1).each do |action|
       # This can be invoked by Panopticon when it updates an artefact and associated
       # editions. The problem is that Panopticon and Publisher users live in different
       # collections, but share a model and relationships with eg actions.

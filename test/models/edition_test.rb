@@ -113,12 +113,13 @@ class EditionTest < ActiveSupport::TestCase
     end
 
     should "be done when an existing edition is updated" do
-      edition = FactoryBot.create(:answer_edition, body: 'abc [foobar](http://foobar.com "hover")')
+      answer_edition = FactoryBot.create(:answer_edition, body: 'abc [foobar](http://foobar.com "hover")')
+      FactoryBot.create(:edition, :draft, version_number: 1, editionable: answer_edition)
 
-      edition.body += "some update"
+      answer_edition.body += "some update"
 
-      assert_not edition.valid?
-      assert_equal edition.errors.full_messages, ["Body Don't include hover text in links. Delete the text in quotation marks eg \"This appears when you hover over the link.\""]
+      assert_not answer_edition.valid?
+      assert_equal answer_edition.errors.full_messages, ["Body Don't include hover text in links. Delete the text in quotation marks eg \"This appears when you hover over the link.\""]
     end
 
     should "allow archiving an edition with invalid links" do

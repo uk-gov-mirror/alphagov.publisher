@@ -7,7 +7,8 @@ class GuideEditionTest < ActiveSupport::TestCase
   end
 
   def template_guide
-    edition = FactoryBot.create(:guide_edition, slug: "childcare", title: "One", panopticon_id: @artefact.id)
+    guide_edition = FactoryBot.create(:guide_edition)
+    edition = FactoryBot.build(:edition, editionable: guide_edition, version_number: 1, slug: "childcare", title: "One", panopticon_id: @artefact.id)
     edition.save!
     edition
   end
@@ -15,8 +16,8 @@ class GuideEditionTest < ActiveSupport::TestCase
   def publisher_and_guide
     user = FactoryBot.create(:user, :govuk_editor, uid: "123", name: "Ben")
     other_user = FactoryBot.create(:user, :govuk_editor, uid: "321", name: "James")
-
-    guide = user.create_edition(:guide, panopticon_id: FactoryBot.create(:artefact).id, overview: "My Overview", title: "My Title", slug: "my-title")
+    g = FactoryBot.create(:guide_edition)
+    guide = user.create_edition(:edition, editionable: g, panopticon_id: FactoryBot.create(:artefact).id, overview: "My Overview", title: "My Title", slug: "my-title")
     edition = guide
     request_review(user, edition)
     approve_review(other_user, edition)
@@ -42,6 +43,7 @@ class GuideEditionTest < ActiveSupport::TestCase
 
   test "a guide with a video url should have a video" do
     g = FactoryBot.create(:guide_edition)
+    FactoryBot.create(:edition, :draft, version_number: 1, editionable: g)
     g.video_url = "http://www.youtube.com/watch?v=QH2-TGUlwu4"
     assert g.has_video?
   end

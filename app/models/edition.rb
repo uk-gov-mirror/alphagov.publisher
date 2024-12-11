@@ -6,14 +6,12 @@ class Edition < ApplicationRecord
   # include Mongoid::Document
   # include Mongoid::Timestamps
   include Workflow
-  include RecordableActions
+  # include RecordableActions # TODO: How to convert this to Postgres?
   include BaseHelper
-
-  delegated_type :editionable, types: %w[AnswerEdition GuideEdition], dependent: :destroy
+  # delegated_type :editionable, types: %w[AnswerEdition GuideEdition], dependent: :destroy
 
   class ResurrectionError < RuntimeError
   end
-
 
   # field :panopticon_id,        type: String
   # field :version_number,       type: Integer,  default: 1
@@ -57,7 +55,7 @@ class Edition < ApplicationRecord
     scope state, -> { where(state:) }
   end
   scope :archived_or_published, -> { where(:state.in => %w[archived published]) }
-  scope :in_progress, -> { where(:state.nin => %w[archived published]) }
+  scope :in_progress, -> { where.not(state: %w[archived published]) }
   scope :assigned_to,
         lambda { |user|
           if user
@@ -140,7 +138,7 @@ class Edition < ApplicationRecord
   validates :title, presence: { message: "Enter a title" }
   validates :version_number, presence: true, uniqueness: { scope: :panopticon_id }, unless: :popular_links_edition?
   validates :panopticon_id, presence: true, unless: :popular_links_edition?
-  # validates_with SafeHtml
+  # validates_with SafeHtml, unless: :popular_links_edition? #TODO: Had to comment-out as GOVSPEAK fields is being looked for on this class, not the subclass in app/validators/safe_html.rb:17
   # validates_with LinkValidator, on: :update
   validates_with ReviewerValidator
   validates :change_note, presence: { if: :major_change }
@@ -168,7 +166,7 @@ class Edition < ApplicationRecord
   end
 
   def self.state
-    Artefact.find(panopticon_id:).state
+    Artefact.find_by(panopticon_id: panopticon_id).state
   end
 
   def self.by_format(format)
@@ -193,11 +191,11 @@ class Edition < ApplicationRecord
   end
 
   def previous_siblings
-    siblings.where(:version_number.lt => version_number).order(version_number: "asc")
+    siblings.where(version_number: version_number..).order(version_number: "asc")
   end
 
   def subsequent_siblings
-    siblings.where(:version_number.gt => version_number).order(version_number: "asc")
+    siblings.where(version_number: ..version_number).order(version_number: "asc")
   end
 
   def latest_edition?
@@ -545,7 +543,7 @@ private
   end
 
   def common_type_specific_field_keys(target_class)
-    ((fields.keys & target_class.fields.keys) - Edition.fields.keys).map(&:to_sym)
+    ((Edition.column_names & target_class.column_names) - Edition.column_names).map(&:to_sym)
   end
 
   def popular_links_edition?

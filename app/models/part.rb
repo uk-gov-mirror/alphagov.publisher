@@ -3,10 +3,10 @@ require_dependency "safe_html"
 class Part < ApplicationRecord
   # include Mongoid::Document
 
-  has_many :guide_edition
-  has_many :programme_edition
+  # has_many :guide_edition
+  # has_many :programme_edition
 
-  scope :in_order, -> { order_by(order: :asc) }
+  # scope :in_order, -> { order_by(order: :asc) }
 
   # field :order,      type: Integer
   # field :title,      type: String

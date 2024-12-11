@@ -79,16 +79,16 @@ FactoryBot.define do
     factory :non_publisher_artefact, traits: [:non_publisher]
   end
 
-  factory :edition do
-    id { SecureRandom.hex(12) }
+  factory :edition, class: Edition do
+    id              { SecureRandom.hex(12) }
 
     panopticon_id do
       a = create(:artefact)
       a.id
     end
-    # transient do
-    #   version_number { nil }
-    # end
+    transient do
+      version_number { nil }
+    end
 
     sequence(:slug) { |n| "slug-#{n}" }
     sequence(:title) { |n| "A key answer to your question #{n}" }
@@ -155,7 +155,8 @@ FactoryBot.define do
       end
     end
   end
-  factory :answer_edition, class: "AnswerEdition" do
+  factory :answer_edition, parent: :edition, class: "AnswerEdition" do
+    edition_specific_content { "body" }
   end
 
   factory :answer_edition_with_link_check_report, traits: [:with_link_check_report], parent: :answer_edition do
@@ -186,13 +187,14 @@ FactoryBot.define do
   factory :video_edition, traits: [:with_body], parent: :edition, class: "VideoEdition" do
   end
 
-  factory :guide_edition, class: "GuideEdition" do
+  factory :guide_edition, parent: :edition, class: "GuideEdition" do
+    sequence(:title) { |n| "Test guide #{n}" }
   end
 
-  factory :popular_links, class: "PopularLinksEdition" do
-    title { "Homepage Popular Links" }
-    link_items { [{ url: "/url1", title: "title1" }, { url: "/url2", title: "title2" }, { url: "/url3", title: "title3" }, { url: "/url4", title: "title4" }, { url: "/url5", title: "title5" }, { url: "/url6", title: "title6" }] }
-  end
+  # factory :popular_links, class: "PopularLinksEdition" do
+  #   title { "Homepage Popular Links" }
+  #   link_items { [{ url: "/url1", title: "title1" }, { url: "/url2", title: "title2" }, { url: "/url3", title: "title3" }, { url: "/url4", title: "title4" }, { url: "/url5", title: "title5" }, { url: "/url6", title: "title6" }] }
+  # end
 
   factory :programme_edition, parent: :edition, class: "ProgrammeEdition" do
     sequence(:title) { |n| "Test programme #{n}" }

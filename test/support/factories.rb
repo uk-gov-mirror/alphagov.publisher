@@ -155,8 +155,9 @@ FactoryBot.define do
       end
     end
   end
-  factory :answer_edition, parent: :edition, class: "AnswerEdition" do
-    edition_specific_content { "body" }
+  factory :answer_edition, parent: :edition, class: 'AnswerEdition' do
+    # body { "body" }
+    edition_specific_content { { body: "body" } }
   end
 
   factory :answer_edition_with_link_check_report, traits: [:with_link_check_report], parent: :answer_edition do
@@ -189,6 +190,8 @@ FactoryBot.define do
 
   factory :guide_edition, parent: :edition, class: "GuideEdition" do
     sequence(:title) { |n| "Test guide #{n}" }
+    edition_specific_content { { parts: [] } }
+    # parts { [] }
   end
 
   # factory :popular_links, class: "PopularLinksEdition" do

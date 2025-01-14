@@ -5,9 +5,10 @@ on:
   push:
     branches:
       - main
+      - rubocop-token-workflow
     paths-ignore:
       - "Jenkinsfile"
-      - ".git**"
+      # - ".git**"
   pull_request:
 
 jobs:
@@ -44,7 +45,7 @@ jobs:
 
   lint-ruby:
     name: Lint Ruby
-    uses: alphagov/govuk-infrastructure/.github/workflows/rubocop.yml@main
+    uses: alphagov/govuk-infrastructure/.github/workflows/rubocop.yml@rubocop-bundler-token
 
   lint-erb:
     name: Lint Ruby

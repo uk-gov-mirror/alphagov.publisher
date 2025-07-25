@@ -1,0 +1,31 @@
+<% @edition = @resource %>
+<% content_for :title_context, @edition.title %>
+<% content_for :page_title, "Set GOV.UK breadcrumb" %>
+<% content_for :title, "Set GOV.UK breadcrumb" %>
+
+<%= form_with url: tagging_update_breadcrumb_edition_path(@edition) do |form| %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= render "govuk_publishing_components/components/hint", {
+        text: "Select the browse page you want to appear in the breadcrumb",
+      } %>
+      <% @radio_groups.each do |radio_group| %>
+        <%= render "govuk_publishing_components/components/radio", {
+          name: "govuk_breadcrumb[]",
+          heading: radio_group[:heading],
+          heading_size: "s",
+          small: true,
+          no_hint_text: true,
+          items: radio_group[:items],
+        } %>
+      <% end %>
+    </div>
+
+    <div class="govuk-grid-column-one-third options-sidebar">
+      <div class="sidebar-components">
+        <%= sidebar_options_heading %>
+        <%= sidebar_items_list(base_edition_sidebar_buttons(tagging_edition_path(@edition))) %>
+      </div>
+    </div>
+  </div>
+<% end %>

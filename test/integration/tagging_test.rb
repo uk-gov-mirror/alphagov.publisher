@@ -235,6 +235,10 @@ class TaggingTest < LegacyJavascriptIntegrationTest
     end
   end
 
+  context "Setting GOV.UK breadcrumb" do
+
+  end
+
   context "Getting links" do
     should "handle 404s from publishing-api (e.g. straight after a new artefact is created)" do
       stub_request(:get, "#{PUBLISHING_API_V2_ENDPOINT}/links/#{@content_id}")

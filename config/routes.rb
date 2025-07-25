@@ -53,6 +53,8 @@ Rails.application.routes.draw do
         get "tagging", to: "editions#tagging"
         post "update_tagging"
         get "tagging_mainstream_browse_page"
+        get "tagging_breadcrumb_page", to: "tagging#breadcrumb", as: "tagging_breadcrumb_page"
+        post "tagging_update_breadcrumb", to: "tagging#update_breadcrumb", as: "tagging_update_breadcrumb"
         get "unpublish"
         get "unpublish/confirm-unpublish", to: "editions#confirm_unpublish", as: "confirm_unpublish"
         post "process_unpublish"

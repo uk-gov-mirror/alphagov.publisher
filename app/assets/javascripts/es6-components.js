@@ -14,6 +14,3 @@
 //= require govuk_publishing_components/components/radio
 //= require govuk_publishing_components/components/select-with-search
 //= require govuk_publishing_components/components/skip-link
-
-// Analytics modules
-//= require modules/ga4-form-setup

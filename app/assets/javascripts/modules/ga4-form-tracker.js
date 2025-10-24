@@ -1,8 +1,22 @@
+// This module is taken from Whitehall with some minor changes for Publisher
+// There is work being done at the minute to move this into the Publishing Components gem
+// This is a temporary file that will not be needed
+// We can safely ignore this file WRT code reviews etc.
+
 'use strict'
+
 window.GOVUK = window.GOVUK || {}
 window.GOVUK.Modules = window.GOVUK.Modules || {}
-window.GOVUK.Modules.Ga4FormTracker = window.GOVUK.Modules.Ga4FormTracker || {}
-;(function (Ga4FormTracker) {
+
+;(function (Modules) {
+  function Ga4FormTracker(form) {
+    this.module = form
+  }
+
+  Ga4FormTracker.prototype.init = function() {
+    this.startModule()
+  }
+
   // extra utility function for parsing
   // JSON string data attributes (convention
   // of the components library tracking)
@@ -31,11 +45,7 @@ window.GOVUK.Modules.Ga4FormTracker = window.GOVUK.Modules.Ga4FormTracker || {}
 
   Ga4FormTracker.prototype.getSection = function (target, checkableValue) {
     const { id } = target
-    const form =
-      window.GOVUK.analyticsGa4.core.trackFunctions.findTrackingAttributes(
-        event.target,
-        this.trackingTrigger
-      )
+    const form = this.module
     const fieldset = target.closest('fieldset')
     const legend = fieldset && fieldset.querySelector('legend')
     const sectionContainer = form.closest('[data-ga4-section]')
@@ -88,11 +98,7 @@ window.GOVUK.Modules.Ga4FormTracker = window.GOVUK.Modules.Ga4FormTracker || {}
   // Ga4FormTracker does not track form changes
   // so we need to define an extra function
   Ga4FormTracker.prototype.trackFormChange = function (event) {
-    const form =
-      window.GOVUK.analyticsGa4.core.trackFunctions.findTrackingAttributes(
-        event.target,
-        this.trackingTrigger
-      )
+    const form = this.module
 
     if (!form) return
 
@@ -153,7 +159,7 @@ window.GOVUK.Modules.Ga4FormTracker = window.GOVUK.Modules.Ga4FormTracker || {}
   // to add a listener to track changes to the form
   Ga4FormTracker.prototype.startModule = function () {
     this.module.addEventListener('change', this.trackFormChange.bind(this))
-
-    this.module.addEventListener('submit', this.trackFormSubmit.bind(this))
   }
-})(window.GOVUK.Modules.Ga4FormTracker)
+
+  Modules.Ga4FormTracker = Ga4FormTracker
+})(window.GOVUK.Modules)

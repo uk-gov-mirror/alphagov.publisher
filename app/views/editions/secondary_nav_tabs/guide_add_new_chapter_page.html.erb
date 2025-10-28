@@ -39,12 +39,13 @@
 </div>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-column-full">
     <%= render "govuk_publishing_components/components/heading", {
       text: "Add new chapter",
       heading_level: 2,
       font_size: "l",
       margin_bottom: 5,
+      margin_top: 5,
     } %>
   </div>
 
@@ -56,6 +57,7 @@
         },
         id: "edition_parts_attributes_#{@edition.parts.find_index(@part) || @edition.parts.size}_title",
         name: "part[title]",
+        value: params[:title],
         heading_size: "s",
         error_items: errors_for(@part.errors, :title, use_full_message: false),
       } %>
@@ -66,6 +68,7 @@
         },
         id: "edition_parts_attributes_#{@edition.parts.find_index(@part) || @edition.parts.size}_slug",
         name: "part[slug]",
+        value: params[:slug],
         heading_size: "s",
         hint: "For example, title-of-chapter (no spaces, apostrophes or acronyms)",
         error_items: errors_for(@part.errors, :slug, use_full_message: false),
@@ -78,7 +81,7 @@
         name: "part[body]",
         value: params[:body],
         rows: 14,
-        hint: ("Refer to the #{link_to("Govspeak guidance (opens in new tab)", "https://govspeak-preview.publishing.service.gov.uk/guide", target: "_blank", rel: "noopener", class: "govuk-link")}").html_safe,
+        hint: ("Refer to the #{link_to("Govspeak guidance (opens in new tab)", "https://govspeak-preview.publishing.service.gov.uk/guide", target: "_blank", rel: "noopener", class: "govuk-link govuk-link--no-visited-state")}").html_safe,
       } %>
     </div>
 

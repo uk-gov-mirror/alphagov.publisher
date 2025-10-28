@@ -5,6 +5,12 @@ GIT
   specs:
     nested_form (0.3.2)
 
+PATH
+  remote: fact_check
+  specs:
+    fact_check (0.1.0)
+      rails (>= 7.1.5.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -191,9 +197,6 @@ GEM
     faraday-net_http (3.4.1)
       net-http (>= 0.5.0)
     ffi (1.17.0)
-    ffi (1.17.0-aarch64-linux-gnu)
-    ffi (1.17.0-arm64-darwin)
-    ffi (1.17.0-x86_64-linux-gnu)
     flipflop (2.8.0)
       activesupport (>= 4.0)
       terminal-table (>= 1.8)
@@ -912,6 +915,7 @@ DEPENDENCIES
   diffy
   erb_lint
   erubis
+  fact_check!
   factory_bot_rails
   flipflop
   gds-api-adapters

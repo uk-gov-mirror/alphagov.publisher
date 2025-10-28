@@ -69,5 +69,8 @@ group :development, :test do
   gem "govuk_test"
   gem "pry-byebug"
   gem "rack"
+  gem "rails-erd"
   gem "rubocop-govuk"
 end
+
+gem 'fact_check', path: 'fact_check'

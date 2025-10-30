@@ -9,18 +9,18 @@ window.GOVUK = window.GOVUK || {}
 window.GOVUK.Modules = window.GOVUK.Modules || {}
 
 ;(function (Modules) {
-  function Ga4FormTracker(form) {
+  function Ga4FormChangeTracker(form) {
     this.module = form
   }
 
-  Ga4FormTracker.prototype.init = function() {
+  Ga4FormChangeTracker.prototype.init = function() {
     this.startModule()
   }
 
   // extra utility function for parsing
   // JSON string data attributes (convention
   // of the components library tracking)
-  Ga4FormTracker.prototype.getJson = function (target, attribute) {
+  Ga4FormChangeTracker.prototype.getJson = function (target, attribute) {
     let dataContainer
     let data
 
@@ -36,14 +36,14 @@ window.GOVUK.Modules = window.GOVUK.Modules || {}
     }
   }
 
-  Ga4FormTracker.prototype.dateTimeComponent = function (target) {
+  Ga4FormChangeTracker.prototype.dateTimeComponent = function (target) {
     return (
       target.closest('.app-c-datetime-fields') ||
       target.closest('.govuk-date-input')
     )
   }
 
-  Ga4FormTracker.prototype.getSection = function (target, checkableValue) {
+  Ga4FormChangeTracker.prototype.getSection = function (target, checkableValue) {
     const { id } = target
     const form = this.module
     const fieldset = target.closest('fieldset')
@@ -77,7 +77,7 @@ window.GOVUK.Modules = window.GOVUK.Modules || {}
     return section
   }
 
-  Ga4FormTracker.prototype.handleDateComponent = function (target) {
+  Ga4FormChangeTracker.prototype.handleDateComponent = function (target) {
     const isDateComponent = target.closest('.govuk-date-input')
     const value = target.value
 
@@ -95,9 +95,9 @@ window.GOVUK.Modules = window.GOVUK.Modules || {}
     }
   }
 
-  // Ga4FormTracker does not track form changes
+  // Ga4FormChangeTracker does not track form changes
   // so we need to define an extra function
-  Ga4FormTracker.prototype.trackFormChange = function (event) {
+  Ga4FormChangeTracker.prototype.trackFormChange = function (event) {
     const form = this.module
 
     if (!form) return
@@ -157,9 +157,9 @@ window.GOVUK.Modules = window.GOVUK.Modules || {}
 
   // we need to override the default `startModule`
   // to add a listener to track changes to the form
-  Ga4FormTracker.prototype.startModule = function () {
+  Ga4FormChangeTracker.prototype.startModule = function () {
     this.module.addEventListener('change', this.trackFormChange.bind(this))
   }
 
-  Modules.Ga4FormTracker = Ga4FormTracker
+  Modules.Ga4FormChangeTracker = Ga4FormChangeTracker
 })(window.GOVUK.Modules)

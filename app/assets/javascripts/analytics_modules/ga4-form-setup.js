@@ -20,7 +20,7 @@ window.GOVUK.analyticsGa4.analyticsModules = window.GOVUK.analyticsGa4.analytics
 
     Array.from(forms).map((form) => {
       this.addDataAttributes(form)
-      this.callFormTracker(form)
+      this.callFormChangeTracker(form)
     })
   }
 
@@ -39,8 +39,8 @@ window.GOVUK.analyticsGa4.analyticsModules = window.GOVUK.analyticsGa4.analytics
     form.setAttribute('data-ga4-form-use-text-count', '')
   }
 
-  Ga4FormSetup.prototype.callFormTracker = function (form) {
-    const ga4FormTracker = new window.GOVUK.Modules.Ga4FormTracker(form)
+  Ga4FormSetup.prototype.callFormChangeTracker = function (form) {
+    const ga4FormTracker = new window.GOVUK.Modules.Ga4FormChangeTracker(form)
 
     ga4FormTracker.init()
   }

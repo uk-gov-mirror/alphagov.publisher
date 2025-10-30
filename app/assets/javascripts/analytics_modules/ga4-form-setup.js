@@ -25,6 +25,7 @@ window.GOVUK.analyticsGa4.analyticsModules = window.GOVUK.analyticsGa4.analytics
   }
 
   Ga4FormSetup.prototype.addDataAttributes = function(form) {
+    var dataModule = form.dataset.module
     var eventData = {
       event_name: "form_response",
       type: "edit",
@@ -33,6 +34,7 @@ window.GOVUK.analyticsGa4.analyticsModules = window.GOVUK.analyticsGa4.analytics
       tool_name: "publisher"
     }
 
+    form.setAttribute('data-module', dataModule + ' ga4-form-tracker')
     form.setAttribute('data-ga4-form-change-tracking', '')
     form.setAttribute('data-ga4-form-record-json', '')
     form.setAttribute('data-ga4-form', JSON.stringify(eventData))

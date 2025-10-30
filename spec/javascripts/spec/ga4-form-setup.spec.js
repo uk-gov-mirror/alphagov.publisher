@@ -9,7 +9,7 @@ describe('GA4FormSetup', function () {
   beforeEach(function () {
     var moduleHtml =
       `<div data-module="ga4-form-setup">
-        <form></form>
+        <form data-module="some-other-module"></form>
       </div>`
 
     module = document.createElement('div')
@@ -38,9 +38,7 @@ describe('GA4FormSetup', function () {
       var formGA4Data = form.dataset
       var formEventData = JSON.parse(formGA4Data.ga4Form)
 
-      console.log('formGA4Data: ', formGA4Data.ga4FormChangeTracking)
-      console.log('formEventData: ', formEventData)
-
+      expect(formGA4Data.module).toBe("some-other-module ga4-form-tracker")
       expect(formEventData.action).toBe("Save")
       expect(formEventData.event_name).toBe("form_response")
       expect(formEventData.section).toBe("Edit publication")

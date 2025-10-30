@@ -7,14 +7,7 @@ describe('GA4FormSetup', function () {
     // Probably don't need the full form but only the <form> element itself
     var moduleHtml =
       `<div data-module="ga4-form-setup">
-        <form>
-          <input type="text" id="input_1">
-          <textarea id="input_2"></textarea>
-          <fieldset id="input_3">
-            <input type="radio" name="radio_1">
-            <input type="radio" name="radio_1">
-          </fieldset>
-        </form>
+        <form></form>
       </div>`
 
     module = document.createElement('div')
@@ -36,6 +29,24 @@ describe('GA4FormSetup', function () {
       const Ga4FormTrackerSpy = spyOn(new window.GOVUK.Modules.Ga4FormTracker(), 'getJson')
 
       expect(Ga4FormTrackerSpy).toHaveBeenCalled()
+    })
+
+    it('adds the correct parameters to the form', function() {
+      var form = module.querySelector('form')
+      var formGA4Data = form.dataset
+      var formEventData = JSON.parse(formGA4Data.ga4Form)
+
+      console.log('formGA4Data: ', formGA4Data.ga4FormChangeTracking)
+      console.log('formEventData: ', formEventData)
+
+      expect(formEventData.action).toBe("Save")
+      expect(formEventData.event_name).toBe("form_response")
+      expect(formEventData.section).toBe("Edit publication")
+      expect(formEventData.tool_name).toBe("publisher")
+      expect(formEventData.type).toBe("edit")
+      expect(Object.keys(formGA4Data)).toContain('ga4FormChangeTracking');
+      expect(Object.keys(formGA4Data)).toContain('ga4FormRecordJson');
+      expect(Object.keys(formGA4Data)).toContain('ga4FormUseTextCount');
     })
   })
 })

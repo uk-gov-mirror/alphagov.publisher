@@ -1,10 +1,12 @@
+window.GOVUK = window.GOVUK || {}
+window.GOVUK.Modules = window.GOVUK.Modules || {}
+
 describe('GA4FormSetup', function () {
   'use strict'
 
   var module, ga4FormSetup
 
   beforeEach(function () {
-    // Probably don't need the full form but only the <form> element itself
     var moduleHtml =
       `<div data-module="ga4-form-setup">
         <form></form>
@@ -24,11 +26,10 @@ describe('GA4FormSetup', function () {
 
   describe('when loaded', function () {
     // TODO: make this test work
-    // Probably should be init not getJson
     xit('starts the FormTracker module', function () {
-      const Ga4FormTrackerSpy = spyOn(new window.GOVUK.Modules.Ga4FormTracker(), 'getJson')
+      var ga4FormTrackerSpyInit = spyOn(new window.GOVUK.Modules.Ga4FormTracker, 'init')
 
-      expect(Ga4FormTrackerSpy).toHaveBeenCalled()
+      expect(ga4FormTrackerSpyInit).toHaveBeenCalled()
     })
 
     it('adds the correct parameters to the form', function() {

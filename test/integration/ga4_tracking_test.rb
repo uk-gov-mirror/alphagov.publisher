@@ -16,8 +16,10 @@ class Ga4TrackingTest < JavascriptIntegrationTest
 
     should "render the correct ga4 data-attributes on the form" do
       form = page.find("form")
+      form_module_data = form["data-module"]
       form_ga4_event_data = JSON.parse(form["data-ga4-form"])
 
+      assert_includes form_module_data, "ga4-form-tracker"
       assert_equal form_ga4_event_data["action"], "Save"
       assert_equal form_ga4_event_data["event_name"], "form_response"
       assert_equal form_ga4_event_data["section"], "Edit publication"

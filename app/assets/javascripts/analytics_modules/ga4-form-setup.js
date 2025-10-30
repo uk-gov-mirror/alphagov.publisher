@@ -39,7 +39,14 @@ window.GOVUK.analyticsGa4.analyticsModules = window.GOVUK.analyticsGa4.analytics
     console.log('form: ', form)
 
     // Needs defining so it can be added to the data-ga4-form
-    var eventData = "{&quot;event_name&quot;:&quot;form_response&quot;,&quot;action&quot;:&quot;Save&quot;,&quot;section&quot;:&quot;Edit publication&quot;,&quot;type&quot;:&quot;edit&quot;,&quot;tool_name&quot;:&quot;publications&quot;}"
+    var eventData = {
+      event_name: "form_response",
+      type: "edit",
+      section: "Edit publication",
+      action: "Save",
+      tool_name: "publisher"
+    }
+    // "{\"event_name\":\"form_response\",\"type\":\"edit\",\"section\":\"Edit publication\",\"action\":\"Save\",\"tool_name\":\"publisher\"}"
 
     // What does this do and is it needed?
     // Looks like it's specific to a component on WH we don't have (yet)
@@ -48,28 +55,28 @@ window.GOVUK.analyticsGa4.analyticsModules = window.GOVUK.analyticsGa4.analytics
     // }
 
     // What does this do and is it needed?
-    if (
-      form.querySelectorAll(
-        'fieldset, input:not([type="checkbox"],[type="hidden"],[type="radio"],[type="search"]), select'
-      ).length > 1
-    ) {
-      console.log('Set these attributes!')
+    // if (
+    //   form.querySelectorAll(
+    //     'fieldset, input:not([type="checkbox"],[type="hidden"],[type="radio"],[type="search"]), select'
+    //   ).length > 1
+    // ) {
+      // console.log('Set these attributes!')
       // WH: only record JSON if number of fields larger than 1
       form.setAttribute('data-ga4-form-record-json', '')
-      form.setAttribute('data-ga4-form-split-response-text', '')
-    }
+      // form.setAttribute('data-ga4-form-split-response-text', '')
+    // }
 
-    form.setAttribute('data-ga4-form', eventData) // JSON.stringify(eventData)
-    form.setAttribute('data-ga4-form-include-text', '')
+    form.setAttribute('data-ga4-form', JSON.stringify(eventData))
+    // form.setAttribute('data-ga4-form-include-text', '')
     form.setAttribute('data-ga4-form-use-text-count', '')
-    form.setAttribute('data-ga4-form-use-select-count', '')
+    // form.setAttribute('data-ga4-form-use-select-count', '')
 
     // this.callFormTracker(form)
   }
 
   // ga4 form attributes on whitehall
   //   data-ga4-form-change-tracking="" 
-  //   data-ga4-form="{&quot;event_name&quot;:&quot;form_response&quot;,&quot;action&quot;:&quot;Save&quot;,&quot;section&quot;:&quot;Edit publication&quot;,&quot;type&quot;:&quot;edit&quot;,&quot;tool_name&quot;:&quot;publications&quot;}" 
+  //   data-ga4-form="{\"event_name\":\"form_response\",\"action\":\"Save\",\"section\":\"Edit publication\",\"type\":\"edit\",\"tool_name\":\"publications\"}" 
   //   data-ga4-form-record-json="" 
   //   data-ga4-form-split-response-text="" 
   //   data-ga4-form-include-text="" 

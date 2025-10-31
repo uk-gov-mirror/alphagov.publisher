@@ -26,7 +26,7 @@ window.GOVUK.analyticsGa4.analyticsModules = window.GOVUK.analyticsGa4.analytics
 
     // Add data-attributes to element
     indexedElements.forEach((element, index) => {
-      element.dataset.ga4Index = "{\"index_section\": " + index + ", \"index_section_count\": " + indexedElements.length + "}"
+      element.dataset.ga4Index = "{\"index_section\": " + (index + 1).toString() + ", \"index_section_count\": " + indexedElements.length + "}"
     })
   }
 

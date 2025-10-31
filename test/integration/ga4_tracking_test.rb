@@ -22,10 +22,11 @@ class Ga4TrackingTest < JavascriptIntegrationTest
       assert_includes form_module_data, "ga4-form-tracker"
       assert_equal form_ga4_event_data["action"], "Save"
       assert_equal form_ga4_event_data["event_name"], "form_response"
-      assert_equal form_ga4_event_data["section"], "Edit publication"
+      assert_equal form_ga4_event_data["section"], "Edit edition"
       assert_equal form_ga4_event_data["tool_name"], "publisher"
       assert_equal form_ga4_event_data["type"], "edit"
 
+      assert page.has_css?("form[data-ga4-form-include-text]")
       assert page.has_css?("form[data-ga4-form-change-tracking]")
       assert page.has_css?("form[data-ga4-form-record-json]")
       assert page.has_css?("form[data-ga4-form-use-text-count]")
@@ -35,7 +36,6 @@ class Ga4TrackingTest < JavascriptIntegrationTest
       title_field = page.find("input[name='edition[title]']")
       metatag_field = page.find("textarea[name='edition[overview]']")
       body_field = page.find("textarea[name='edition[body]']")
-      # TODO: Find this element with a less generic find
       beta_field = page.find("fieldset")
 
       title_field_data = JSON.parse(title_field["data-ga4-index"])
@@ -43,14 +43,14 @@ class Ga4TrackingTest < JavascriptIntegrationTest
       body_field_data = JSON.parse(body_field["data-ga4-index"])
       beta_field_data = JSON.parse(beta_field["data-ga4-index"])
 
-      assert_equal title_field_data["index_section"], 0
-      assert_equal title_field_data["index_section_count"], 4
-      assert_equal metatag_field_data["index_section"], 1
-      assert_equal metatag_field_data["index_section_count"], 4
-      assert_equal body_field_data["index_section"], 2
-      assert_equal body_field_data["index_section_count"], 4
-      assert_equal beta_field_data["index_section"], 3
-      assert_equal beta_field_data["index_section_count"], 4
+      assert_equal 1, title_field_data["index_section"]
+      assert_equal 4, title_field_data["index_section_count"]
+      assert_equal 2, metatag_field_data["index_section"]
+      assert_equal 4, metatag_field_data["index_section_count"]
+      assert_equal 3, body_field_data["index_section"]
+      assert_equal 4, body_field_data["index_section_count"]
+      assert_equal 4, beta_field_data["index_section"]
+      assert_equal 4, beta_field_data["index_section_count"]
     end
   end
 end

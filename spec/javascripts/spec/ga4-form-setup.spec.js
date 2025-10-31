@@ -41,9 +41,10 @@ describe('GA4FormSetup', function () {
       expect(formGA4Data.module).toBe("some-other-module ga4-form-tracker")
       expect(formEventData.action).toBe("Save")
       expect(formEventData.event_name).toBe("form_response")
-      expect(formEventData.section).toBe("Edit publication")
+      expect(formEventData.section).toBe("Edit edition")
       expect(formEventData.tool_name).toBe("publisher")
       expect(formEventData.type).toBe("edit")
+      expect(Object.keys(formGA4Data)).toContain('ga4FormIncludeText');
       expect(Object.keys(formGA4Data)).toContain('ga4FormChangeTracking');
       expect(Object.keys(formGA4Data)).toContain('ga4FormRecordJson');
       expect(Object.keys(formGA4Data)).toContain('ga4FormUseTextCount');

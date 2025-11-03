@@ -134,7 +134,7 @@ window.GOVUK.Modules = window.GOVUK.Modules || {}
       }
     } else if (!text) {
       // it's a free form text field
-      text = this.handleDateComponent(target)
+      text = this.handleDateComponent(target).length
 
       if (!text) return
     }
@@ -148,7 +148,7 @@ window.GOVUK.Modules = window.GOVUK.Modules || {}
         ),
         event_name: 'select_content',
         action,
-        text: text.length
+        text: text
       },
       'event_data'
     )

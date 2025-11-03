@@ -9,7 +9,6 @@ window.GOVUK.analyticsGa4.analyticsModules = window.GOVUK.analyticsGa4.analytics
 
   Ga4FormSetup.prototype.init = function () {
     var forms
-
     var modules = document.querySelectorAll(
       "[data-module~='ga4-form-setup']"
     )

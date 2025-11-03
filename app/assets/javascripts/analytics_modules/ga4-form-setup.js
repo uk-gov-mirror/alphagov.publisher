@@ -5,33 +5,33 @@ window.GOVUK.analyticsGa4 = window.GOVUK.analyticsGa4 || {}
 window.GOVUK.analyticsGa4.analyticsModules = window.GOVUK.analyticsGa4.analyticsModules || {}
 
 ;(function (Modules) {
-  function Ga4FormSetup() {}
+  function Ga4FormSetup () {}
 
   Ga4FormSetup.prototype.init = function () {
     var forms
 
-    const modules = document.querySelectorAll(
+    var modules = document.querySelectorAll(
       "[data-module~='ga4-form-setup']"
     )
 
-    Array.from(modules).map((module) => {
+    Array.from(modules).forEach(function (module) {
       forms = module.querySelectorAll('form')
     })
 
-    Array.from(forms).map((form) => {
+    Array.from(forms).forEach(function (form) {
       this.addDataAttributes(form)
       this.callFormChangeTracker(form)
-    })
+    }.bind(this))
   }
 
-  Ga4FormSetup.prototype.addDataAttributes = function(form) {
+  Ga4FormSetup.prototype.addDataAttributes = function (form) {
     var dataModule = form.dataset.module
     var eventData = {
-      event_name: "form_response",
-      type: "edit",
-      section: "Edit edition",
-      action: "Save",
-      tool_name: "publisher"
+      event_name: 'form_response',
+      type: 'edit',
+      section: 'Edit edition',
+      action: 'Save',
+      tool_name: 'publisher'
     }
 
     form.setAttribute('data-module', dataModule + ' ga4-form-tracker')

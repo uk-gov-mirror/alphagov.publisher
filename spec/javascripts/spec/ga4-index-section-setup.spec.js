@@ -20,7 +20,7 @@ describe('GA4IndexSectionSetup', function () {
     module.innerHTML = moduleHtml
     document.body.appendChild(module)
 
-    ga4IndexSectionSetup = new window.GOVUK.Modules.Ga4IndexSectionSetup
+    ga4IndexSectionSetup = new window.GOVUK.Modules.Ga4IndexSectionSetup()
     ga4IndexSectionSetup.init()
   })
 
@@ -31,19 +31,19 @@ describe('GA4IndexSectionSetup', function () {
   describe('When the page loads', function () {
     it('adds the correct data attributes to the form input elements', function () {
       // input [type="text"]
-      var input_1 = module.querySelector("#input_1")
-      expect(JSON.parse(input_1.dataset.ga4Index).index_section).toBe(0)
-      expect(JSON.parse(input_1.dataset.ga4Index).index_section_count).toBe(3)
+      var input1 = module.querySelector('#input_1')
+      expect(JSON.parse(input1.dataset.ga4Index).index_section).toBe(0)
+      expect(JSON.parse(input1.dataset.ga4Index).index_section_count).toBe(3)
 
       // textarea
-      var input_2 = module.querySelector("#input_2")
-      expect(JSON.parse(input_2.dataset.ga4Index).index_section).toBe(1)
-      expect(JSON.parse(input_2.dataset.ga4Index).index_section_count).toBe(3)
+      var input2 = module.querySelector('#input_2')
+      expect(JSON.parse(input2.dataset.ga4Index).index_section).toBe(1)
+      expect(JSON.parse(input2.dataset.ga4Index).index_section_count).toBe(3)
 
       // fieldset
-      var input_3 = module.querySelector("#input_3")
-      expect(JSON.parse(input_3.dataset.ga4Index).index_section).toBe(2)
-      expect(JSON.parse(input_3.dataset.ga4Index).index_section_count).toBe(3)
+      var input3 = module.querySelector('#input_3')
+      expect(JSON.parse(input3.dataset.ga4Index).index_section).toBe(2)
+      expect(JSON.parse(input3.dataset.ga4Index).index_section_count).toBe(3)
     })
   })
 })

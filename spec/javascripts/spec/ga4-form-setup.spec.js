@@ -25,14 +25,6 @@ describe('GA4FormSetup', function () {
   })
 
   describe('when loaded', function () {
-    // TODO: make this test work
-    // Remember it is also now renamed to Ga4FormChangeTracker
-    xit('starts the FormTracker module', function () {
-      var ga4FormTrackerSpyInit = spyOn(new window.GOVUK.Modules.Ga4FormTracker, 'init')
-
-      expect(ga4FormTrackerSpyInit).toHaveBeenCalled()
-    })
-
     it('adds the correct parameters to the form', function() {
       var form = module.querySelector('form')
       var formGA4Data = form.dataset

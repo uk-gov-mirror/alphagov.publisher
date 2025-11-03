@@ -149,7 +149,7 @@ window.GOVUK.Modules = window.GOVUK.Modules || {}
         ),
         event_name: 'select_content',
         action,
-        text: text.replace(/\r?\n|\r/g, '')
+        text: text.length
       },
       'event_data'
     )

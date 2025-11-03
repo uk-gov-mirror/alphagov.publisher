@@ -16,7 +16,7 @@ describe('GA4FormSetup', function () {
     module.innerHTML = moduleHtml
     document.body.appendChild(module)
 
-    ga4FormSetup = new window.GOVUK.Modules.Ga4FormSetup
+    ga4FormSetup = new window.GOVUK.Modules.Ga4FormSetup()
     ga4FormSetup.init()
   })
 
@@ -25,21 +25,21 @@ describe('GA4FormSetup', function () {
   })
 
   describe('when loaded', function () {
-    it('adds the correct parameters to the form', function() {
+    it('adds the correct parameters to the form', function () {
       var form = module.querySelector('form')
       var formGA4Data = form.dataset
       var formEventData = JSON.parse(formGA4Data.ga4Form)
 
-      expect(formGA4Data.module).toBe("some-other-module ga4-form-tracker")
-      expect(formEventData.action).toBe("Save")
-      expect(formEventData.event_name).toBe("form_response")
-      expect(formEventData.section).toBe("Edit edition")
-      expect(formEventData.tool_name).toBe("publisher")
-      expect(formEventData.type).toBe("edit")
-      expect(Object.keys(formGA4Data)).toContain('ga4FormIncludeText');
-      expect(Object.keys(formGA4Data)).toContain('ga4FormChangeTracking');
-      expect(Object.keys(formGA4Data)).toContain('ga4FormRecordJson');
-      expect(Object.keys(formGA4Data)).toContain('ga4FormUseTextCount');
+      expect(formGA4Data.module).toBe('some-other-module ga4-form-tracker')
+      expect(formEventData.action).toBe('Save')
+      expect(formEventData.event_name).toBe('form_response')
+      expect(formEventData.section).toBe('Edit edition')
+      expect(formEventData.tool_name).toBe('publisher')
+      expect(formEventData.type).toBe('edit')
+      expect(Object.keys(formGA4Data)).toContain('ga4FormIncludeText')
+      expect(Object.keys(formGA4Data)).toContain('ga4FormChangeTracking')
+      expect(Object.keys(formGA4Data)).toContain('ga4FormRecordJson')
+      expect(Object.keys(formGA4Data)).toContain('ga4FormUseTextCount')
     })
   })
 })

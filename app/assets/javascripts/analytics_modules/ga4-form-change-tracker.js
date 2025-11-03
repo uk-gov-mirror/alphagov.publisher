@@ -9,11 +9,11 @@ window.GOVUK = window.GOVUK || {}
 window.GOVUK.Modules = window.GOVUK.Modules || {}
 
 ;(function (Modules) {
-  function Ga4FormChangeTracker(form) {
+  function Ga4FormChangeTracker (form) {
     this.module = form
   }
 
-  Ga4FormChangeTracker.prototype.init = function() {
+  Ga4FormChangeTracker.prototype.init = function () {
     this.startModule()
   }
 
@@ -81,8 +81,7 @@ window.GOVUK.Modules = window.GOVUK.Modules || {}
     const isDateComponent = target.closest('.govuk-date-input')
     const value = target.value
 
-    if (!isDateComponent)
-      return typeof value === 'string' ? value.replace(/[\n\r]/g, ' ') : value
+    if (!isDateComponent) { return typeof value === 'string' ? value.replace(/[\n\r]/g, ' ') : value }
 
     // only track if completely filled in
     const inputs = [

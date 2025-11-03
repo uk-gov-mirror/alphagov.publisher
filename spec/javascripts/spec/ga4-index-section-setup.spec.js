@@ -32,17 +32,17 @@ describe('GA4IndexSectionSetup', function () {
     it('adds the correct data attributes to the form input elements', function () {
       // input [type="text"]
       var input1 = module.querySelector('#input_1')
-      expect(JSON.parse(input1.dataset.ga4Index).index_section).toBe(0)
+      expect(JSON.parse(input1.dataset.ga4Index).index_section).toBe(1)
       expect(JSON.parse(input1.dataset.ga4Index).index_section_count).toBe(3)
 
       // textarea
       var input2 = module.querySelector('#input_2')
-      expect(JSON.parse(input2.dataset.ga4Index).index_section).toBe(1)
+      expect(JSON.parse(input2.dataset.ga4Index).index_section).toBe(2)
       expect(JSON.parse(input2.dataset.ga4Index).index_section_count).toBe(3)
 
       // fieldset
       var input3 = module.querySelector('#input_3')
-      expect(JSON.parse(input3.dataset.ga4Index).index_section).toBe(2)
+      expect(JSON.parse(input3.dataset.ga4Index).index_section).toBe(3)
       expect(JSON.parse(input3.dataset.ga4Index).index_section_count).toBe(3)
     })
   })

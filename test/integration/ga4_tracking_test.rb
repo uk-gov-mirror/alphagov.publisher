@@ -52,5 +52,20 @@ class Ga4TrackingTest < JavascriptIntegrationTest
       assert_equal 4, beta_field_data["index_section"]
       assert_equal 4, beta_field_data["index_section_count"]
     end
+
+    should "push the correct values to the dataLayer when events are triggered" do
+      fill_in "Title", with: "The title"
+      fill_in "Meta tag description", with: "the-meta-tag-description"
+
+      dataLayer = evaluate_script('window.dataLayer')
+      event_data = dataLayer[dataLayer.count - 1]['event_data']
+
+      assert_equal "select", event_data['action']
+      assert_equal "select_content", event_data['event_name']
+      assert_equal "Title", event_data['section']
+      assert_equal "9", event_data['text']
+      assert_equal "1", event_data['index']['index_section']
+      assert_equal "4", event_data['index']['index_section_count']
+    end
   end
 end

@@ -379,6 +379,17 @@ class Edition < ApplicationRecord
     end
   end
 
+  def self.recently_active_editions
+    two_years_ago = 2.years.ago.at_beginning_of_day
+    current_time = Time.zone.now
+
+    where(
+      "updated_at BETWEEN :start_date AND :end_date OR created_at BETWEEN :start_date AND :end_date",
+      start_date: two_years_ago,
+      end_date: current_time,
+    ).order(created_at: :desc)
+  end
+
   def format
     editionable.class.to_s.gsub("Edition", "")
   end

@@ -1,5 +1,5 @@
 class AllContentWorkflowPresenter < CSVPresenter
-  def initialize(scope = Edition.all)
+  def initialize(scope = Edition.recently_active_editions.includes(:actions))
     super(scope)
     self.column_headings = %i[
       content_title
@@ -20,8 +20,8 @@ private
 
   def build_csv(csv)
     csv << column_headings.collect { |ch| ch.to_s.humanize }
-    scope.each do |item|
-      item.actions.each do |action|
+    scope.find_each(batch_size: 500) do |item|
+      item.actions.find_each(batch_size: 500) do |action|
         csv << [
           item.title,
           item.slug,

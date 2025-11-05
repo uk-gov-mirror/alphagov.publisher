@@ -2,7 +2,8 @@ require "integration_test_helper"
 
 class Ga4TrackingTest < JavascriptIntegrationTest
   setup do
-    FactoryBot.create(:user, :govuk_editor)
+    FactoryBot.create(:user, :govuk_editor, name: "Valdimir Lenin")
+    # FactoryBot.create(:user, :govuk_editor, name: "Leon Trotsky")
 
     test_strategy = Flipflop::FeatureSet.current.test!
     test_strategy.switch!(:ga4_form_tracking, true)
@@ -122,6 +123,60 @@ class Ga4TrackingTest < JavascriptIntegrationTest
       # assert_equal "No", event_data_save['text']
       # assert_equal "publisher", event_data_save['tool_name']
       # assert_equal "edit", event_data_save['type']
+    end
+  end
+
+  context "Edit assignee page" do
+    setup do
+      edition = FactoryBot.create(:answer_edition, title: "Answer edition")
+      visit edition_path(edition)
+
+      within all(".govuk-summary-list__row")[0] do
+        click_link("Edit")
+      end
+    end
+
+    should "render the correct ga4 data-attributes on the form" do
+      form = page.find("form")
+      form_module_data = form["data-module"]
+      form_ga4_event_data = JSON.parse(form["data-ga4-form"])
+
+      assert_includes form_module_data, "ga4-form-tracker"
+      assert_equal form_ga4_event_data["action"], "Save"
+      assert_equal form_ga4_event_data["event_name"], "form_response"
+      # Needs update
+      # assert_equal form_ga4_event_data["section"], "Assign person"
+      assert_equal form_ga4_event_data["tool_name"], "publisher"
+      assert_equal form_ga4_event_data["type"], "edit"
+
+      assert page.has_css?("form[data-ga4-form-include-text]")
+      assert page.has_css?("form[data-ga4-form-change-tracking]")
+      assert page.has_css?("form[data-ga4-form-record-json]")
+      assert page.has_css?("form[data-ga4-form-use-text-count]")
+    end
+
+    should "render the correct ga4 data-attributes on the form elements" do
+      assign_field = page.find("fieldset")
+      assign_field_data = JSON.parse(assign_field["data-ga4-index"])
+
+      assert_equal 1, assign_field_data["index_section"]
+      assert_equal 1, assign_field_data["index_section_count"]
+    end
+
+    should "push the correct values to the dataLayer when events are triggered" do
+      page.find("label", text: "Valdimir Lenin").click
+
+      dataLayer = evaluate_script('window.dataLayer')
+      event_data_radio_user = dataLayer[dataLayer.count - 1]['event_data']
+
+      assert_equal "select", event_data_radio_user['action']
+      assert_equal "select_content", event_data_radio_user['event_name']
+      # Needs update
+      # assert_equal "Is this beta content?", event_data_radio_user['section']
+      # Needs update
+      # assert_equal "No", event_data_radio_user['text']
+      assert_equal "1", event_data_radio_user['index']['index_section']
+      assert_equal "1", event_data_radio_user['index']['index_section_count']
     end
   end
 end

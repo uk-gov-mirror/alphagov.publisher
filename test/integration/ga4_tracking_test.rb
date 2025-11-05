@@ -3,7 +3,6 @@ require "integration_test_helper"
 class Ga4TrackingTest < JavascriptIntegrationTest
   setup do
     FactoryBot.create(:user, :govuk_editor, name: "Valdimir Lenin")
-    # FactoryBot.create(:user, :govuk_editor, name: "Leon Trotsky")
 
     test_strategy = Flipflop::FeatureSet.current.test!
     test_strategy.switch!(:ga4_form_tracking, true)
@@ -171,12 +170,12 @@ class Ga4TrackingTest < JavascriptIntegrationTest
 
       assert_equal "select", event_data_radio_user['action']
       assert_equal "select_content", event_data_radio_user['event_name']
-      # Needs update
-      # assert_equal "Is this beta content?", event_data_radio_user['section']
-      # Needs update
-      # assert_equal "No", event_data_radio_user['text']
+      assert_equal "Choose a person to assign", event_data_radio_user['section']
+      assert_equal "Valdimir Lenin", event_data_radio_user['text']
       assert_equal "1", event_data_radio_user['index']['index_section']
       assert_equal "1", event_data_radio_user['index']['index_section_count']
     end
+
+    # Add test for clicking "Save" if I work it out
   end
 end

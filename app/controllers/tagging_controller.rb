@@ -5,7 +5,10 @@ class TaggingController < InheritedResources::Base
 
   defaults resource_class: Edition, collection_name: "editions", instance_name: "resource"
 
-  before_action only: %i[tagging_breadcrumb_page] do
+  before_action only: %i[
+    tagging_breadcrumb_page
+    tagging_remove_breadcrumb_page
+  ] do
     require_editor_permissions
   end
 
@@ -19,6 +22,11 @@ class TaggingController < InheritedResources::Base
     Rails.logger.error "Error #{e.class} #{e.message}"
     flash.now[:danger] = SERVICE_REQUEST_ERROR_MESSAGE
     render "editions/show"
+  end
+
+  def tagging_remove_breadcrumb_page
+    populate_tagging_form_values_from_publishing_api
+    render "editions/secondary_nav_tabs/tagging_remove_breadcrumb_page"
   end
 
 private

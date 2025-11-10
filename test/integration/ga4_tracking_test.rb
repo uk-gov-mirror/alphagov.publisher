@@ -5,7 +5,7 @@ class Ga4TrackingTest < JavascriptIntegrationTest
     FactoryBot.create(:user, :govuk_editor)
 
     test_strategy = Flipflop::FeatureSet.current.test!
-    test_strategy.switch!(:design_system_publications_filter, true)
+    test_strategy.switch!(:ga4_form_tracking, true)
   end
 
   context "Edit page" do

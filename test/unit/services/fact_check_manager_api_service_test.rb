@@ -29,7 +29,7 @@ class FactCheckManagerApiServiceTest < ActiveSupport::TestCase
   context ".update_fact_check_content" do
     should "call the fact check manager api adapter" do
       Services.fact_check_manager_api.expects(:patch_update_content)
-              .with(source_app: "publisher", source_id: @edition.id, source_title: "New Title", current_content: { body: "some body" })
+              .with(source_app: "publisher", source_id: @edition.id, source_title: "New Title", current_content: { content: { 'body': "<p>some body</p>" } })
               .returns("stub response")
 
       FactCheckManagerApiService.update_fact_check_content(@edition)
@@ -47,7 +47,7 @@ class FactCheckManagerApiServiceTest < ActiveSupport::TestCase
                              source_url: "#{Plek.find('publisher')}/editions/#{@edition.id}",
                              requester_name: "Ben",
                              requester_email: "joe1@bloggs.com",
-                             current_content: { body: "some body" },
+                             current_content: { content: { 'body': "<p>some body</p>" } },
                              previous_content: nil,
                              deadline: "2026-02-09",
                              recipients: ["stub@email.com"] }
@@ -61,7 +61,7 @@ class FactCheckManagerApiServiceTest < ActiveSupport::TestCase
       edition2 = edition1.build_clone
 
       payload = FactCheckManagerApiService.build_post_payload(edition2, @user, "stub@email.com")
-      expected_hash = { body: "some body" }
+      expected_hash = { content: { 'body': "<p>some body</p>" } }
       assert_equal expected_hash, payload[:previous_content]
     end
 

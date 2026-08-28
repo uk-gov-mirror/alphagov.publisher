@@ -68,4 +68,31 @@ class PlacePresenterTest < ActiveSupport::TestCase
     ]
     assert_equal expected, result[:routes]
   end
+
+  context ".render_for_fact_check_manager_api" do
+    should "return a hash keyed by field" do
+      edition = FactoryBot.create(:place_edition)
+      presenter = Formats::PlacePresenter.new(edition)
+
+      expected = {
+        "introduction" => { heading: "Introduction", body: "<p>#{edition.introduction}</p>" },
+        "more_information" => { heading: "Further information", body: "<p>#{edition.more_information}</p>" },
+        "need_to_know" => { heading: "What you need to know", body: "<p>#{edition.need_to_know}</p>" },
+      }
+
+      assert_equal expected, presenter.render_for_fact_check_manager_api
+    end
+
+    should "omit any blank fields" do
+      edition = FactoryBot.create(:place_edition, more_information: "")
+      presenter = Formats::PlacePresenter.new(edition)
+
+      expected = {
+        "introduction" => { heading: "Introduction", body: "<p>#{edition.introduction}</p>" },
+        "need_to_know" => { heading: "What you need to know", body: "<p>#{edition.need_to_know}</p>" },
+      }
+
+      assert_equal expected, presenter.render_for_fact_check_manager_api
+    end
+  end
 end

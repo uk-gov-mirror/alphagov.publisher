@@ -1,5 +1,27 @@
 module Formats
   class TransactionPresenter < EditionFormatPresenter
+    FIELD_LABELS = {
+      introduction: "Introduction",
+      start_button_text: "Start button text",
+      will_continue_on: "Text below the start button",
+      link: "Link to start of transaction",
+      more_information: "Further information",
+      alternate_methods: "Other ways to apply",
+      need_to_know: "What you need to know",
+    }.freeze
+
+    def render_for_fact_check_manager_api
+      fields_hash = {}
+
+      FIELD_LABELS.each_key do |field|
+        next if edition.editionable[field].blank?
+
+        fields_hash[field.to_s] = { heading: FIELD_LABELS[field], body: edition.editionable[field] }
+      end
+
+      HtmlRenderer.render_hash(fields_hash)
+    end
+
   private
 
     def schema_name

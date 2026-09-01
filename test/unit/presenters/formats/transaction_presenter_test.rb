@@ -145,4 +145,39 @@ class TransactionPresenterTest < ActiveSupport::TestCase
     ]
     assert_equal expected, result[:routes]
   end
+
+  context ".render_for_fact_check_manager_api" do
+    should "return a hash keyed by field" do
+      edition = FactoryBot.create(:transaction_edition, start_button_text: "Start now")
+      presenter = Formats::TransactionPresenter.new(edition)
+
+      expected = {
+        "introduction" => { heading: "Introduction", body: "<p>#{edition.introduction}</p>" },
+        "start_button_text" => { heading: "Start button text", body: "<p>#{edition.start_button_text}</p>" },
+        "will_continue_on" => { heading: "Text below the start button", body: "<p>#{edition.will_continue_on}</p>" },
+        "link" => { heading: "Link to start of transaction", body: "<p>#{edition.link}</p>" },
+        "more_information" => { heading: "Further information", body: "<p>#{edition.more_information}</p>" },
+        "alternate_methods" => { heading: "Other ways to apply", body: "<p>#{edition.alternate_methods}</p>" },
+        "need_to_know" => { heading: "What you need to know", body: "<p>#{edition.need_to_know}</p>" },
+      }
+
+      assert_equal expected, presenter.render_for_fact_check_manager_api
+    end
+
+    should "omit any blank fields" do
+      edition = FactoryBot.create(:transaction_edition, more_information: "", start_button_text: "Start now")
+      presenter = Formats::TransactionPresenter.new(edition)
+
+      expected = {
+        "introduction" => { heading: "Introduction", body: "<p>#{edition.introduction}</p>" },
+        "start_button_text" => { heading: "Start button text", body: "<p>#{edition.start_button_text}</p>" },
+        "will_continue_on" => { heading: "Text below the start button", body: "<p>#{edition.will_continue_on}</p>" },
+        "link" => { heading: "Link to start of transaction", body: "<p>#{edition.link}</p>" },
+        "alternate_methods" => { heading: "Other ways to apply", body: "<p>#{edition.alternate_methods}</p>" },
+        "need_to_know" => { heading: "What you need to know", body: "<p>#{edition.need_to_know}</p>" },
+      }
+
+      assert_equal expected, presenter.render_for_fact_check_manager_api
+    end
+  end
 end

@@ -466,7 +466,7 @@ FactoryBot.define do
       more_information { "This is more information" }
       need_to_know { "This service is only available in England and Wales" }
       link { "http://continue.com" }
-      will_continue_on { "To be continued..." }
+      will_continue_on { "To be continued" }
       alternate_methods { "Method A or Method B" }
     end
 

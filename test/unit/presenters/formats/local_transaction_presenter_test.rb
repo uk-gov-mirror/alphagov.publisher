@@ -205,5 +205,38 @@ class LocalTransactionPresenterTest < ActiveSupport::TestCase
         assert_equal expected, result[:details][:northern_ireland_availability]
       end
     end
+
+    context ".render_for_fact_check_manager_api" do
+      should "return a hash keyed by field" do
+        edition = FactoryBot.create(:local_transaction_edition, cta_text: "Start now")
+        presenter = Formats::LocalTransactionPresenter.new(edition)
+
+        expected = {
+          "cta_text" => { heading: "Button text", body: "<p>#{edition.cta_text}</p>" },
+          "introduction" => { heading: "Introduction", body: "<p>#{edition.introduction}</p>" },
+          "more_information" => { heading: "Further information", body: "<p>#{edition.more_information}</p>" },
+          "need_to_know" => { heading: "What you need to know", body: "<p>#{edition.need_to_know}</p>" },
+          "before_results" => { heading: "Above results content", body: "<h2 id=\"before\">before</h2>" },
+          "after_results" => { heading: "Below results content", body: "<h2 id=\"after\">after</h2>" },
+        }
+
+        assert_equal expected, presenter.render_for_fact_check_manager_api
+      end
+
+      should "omit any blank fields" do
+        edition = FactoryBot.create(:local_transaction_edition, more_information: "", cta_text: "Start now")
+        presenter = Formats::LocalTransactionPresenter.new(edition)
+
+        expected = {
+          "cta_text" => { heading: "Button text", body: "<p>#{edition.cta_text}</p>" },
+          "introduction" => { heading: "Introduction", body: "<p>#{edition.introduction}</p>" },
+          "need_to_know" => { heading: "What you need to know", body: "<p>#{edition.need_to_know}</p>" },
+          "before_results" => { heading: "Above results content", body: "<h2 id=\"before\">before</h2>" },
+          "after_results" => { heading: "Below results content", body: "<h2 id=\"after\">after</h2>" },
+        }
+
+        assert_equal expected, presenter.render_for_fact_check_manager_api
+      end
+    end
   end
 end
